@@ -26,6 +26,7 @@ def create_tips(request, round_id=None):
     else:
         fixture_data = AFLFixture.objects.filter(round=round_id).order_by('date')
     initial = []
+    disable_btn = None
     for item in fixture_data:
         if item.date < timezone.now():
             status = 'disabled'
@@ -34,6 +35,7 @@ def create_tips(request, round_id=None):
         initial.append({'fixture_id': item.id, 'hteam': item.hteam, 'ateam': item.ateam, 
                         'hteam_url': item.hteamid.logo, 'ateam_url': item.ateamid.logo, 
                         'date': item.date, 'venue': item.venue, 'status': status})
+        disable_btn = status
     tippingFormSet = formset_factory(CrispyTipping, extra=0)
     formset = tippingFormSet(initial=initial)
     
@@ -43,6 +45,7 @@ def create_tips(request, round_id=None):
                'next_url': '/tipping/tips/{}/'.format(int(round_id + 1)),
                'current_url': '/tipping/tips/{}/'.format(int(round_id))}
     if request.method == 'GET':
+        disable_btn = None
         if round_id is None:
                 week_start = date.today()
                 week_start -= timedelta(days=week_start.weekday())
@@ -63,6 +66,7 @@ def create_tips(request, round_id=None):
                 initial.append({'fixture_id': item.id, 'hteam': item.hteam, 'ateam': item.ateam, 
                                 'hteam_url': item.hteamid.logo, 'ateam_url': item.ateamid.logo, 
                                 'date': item.date, 'venue': item.venue, 'status': status, 'margin': 0})
+                disable_btn = status
             tippingFormSet = formset_factory(CrispyTipping, extra=0)
             formset = tippingFormSet(initial=initial)
         else:
@@ -76,6 +80,7 @@ def create_tips(request, round_id=None):
                                 'hteam_url': item.hteam_url, 'ateam_url': item.ateam_url, 
                                 'date': item.date, 'venue': item.venue, 'status': status, 
                                 'picks': item.picks, 'margin': item.margin})
+                disable_btn = status
             tippingFormSet = formset_factory(CrispyTipping, extra=0)
             formset = tippingFormSet(initial=initial)
         
@@ -83,10 +88,12 @@ def create_tips(request, round_id=None):
                 'round_id': round_id,
                 'pre_url': '/tipping/tips/{}/'.format(int(round_id - 1)), 
                 'next_url': '/tipping/tips/{}/'.format(int(round_id + 1)),
-                'current_url': '/tipping/tips/{}/'.format(int(round_id))}
+                'current_url': '/tipping/tips/{}/'.format(int(round_id)), 
+                'disable_btn': disable_btn}
     if request.method == 'POST':
         resp_data = request.POST.dict()
         print(resp_data)
+        fixture_obj = None
         for idx, (key, value) in enumerate(resp_data.items()):
             if idx == 1:
                 fixture_id = re.findall(r'\d+', key)[0]

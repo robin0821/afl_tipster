@@ -46,7 +46,7 @@
         <form id="tipping-form-set", name="tipping-form-set", action="{{ current_url }}" method="post" enctype="multipart/form-data">
             {% csrf_token %}
             <div class="row single center">
-                <input type="submit" class="btn btn-info" value="Submit Tips">
+                <input type="submit" class="btn btn-info" value="Submit Tips" {{ disable_btn }}>
             </div>
             {% for form in formset %}
             <div class="card">
@@ -92,7 +92,7 @@
         </div>
         {% endfor %} 
         <div class="row single center">
-            <input type="submit" class="btn btn-info" value="Submit Tips">
+            <input type="submit" class="btn btn-info" value="Submit Tips" {{ disable_btn }}>
         </div>
         </div>
     </form>
