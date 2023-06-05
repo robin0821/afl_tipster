@@ -1,0 +1,246 @@
+{% load socialaccount %}
+{% load widget_tweaks %}
+{# Load the tag library #}
+{% load bootstrap4 %}
+{% load static %}
+{% load crispy_forms_tags %}
+
+{# Load CSS and JavaScript #}
+{% bootstrap_css %}
+{% bootstrap_javascript %}
+
+{# Display django.contrib.messages as Bootstrap alerts #}
+{% bootstrap_messages %}
+<!DOCTYPE html>
+<html>
+  	<head>
+  	</head>
+  	<body>
+
+    	{% load static %}
+
+    	<!--Navbar-->
+
+    	<!--CTA-->
+
+ 		<!--Products-->
+         <div class="container py-3">
+            {% include "navbar.html" %}  
+            <table class="table table-sm table-borderless">
+                <thead>
+                <tbody>
+                    <tr> 
+                        <td class="align-middle text-left">
+                           <a href="{{ pre_url }}"><b class="text-info">&#60; Round {{ round_id | add:-1 }}</b></a>
+                        </td>
+                        <td class="align-middle text-center">
+                            <h4 class="text-dark">Round {{ round_id }}</h4>
+                        </td>
+                        <td class="align-middle text-right">
+                            <a href="{{ next_url }}"><b class="text-info">Round {{ round_id | add:1 }}&#62;</b></a>
+                        </td>
+                    </tr>
+                </tbody>
+                </thead>
+            </table>
+        <form id="tipping-form-set", name="tipping-form-set", action="{{ current_url }}" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="row single center">
+                <input type="submit" class="btn btn-info" value="Submit Tips">
+            </div>
+            {% for form in formset %}
+            <div class="card">
+                <h6 class="card-header">{{ form.date.value }} {{ form.venue.value }}</h6>
+                <div class="card-body">
+            <table class="table table-sm table-borderless">
+                <thead>
+                <tbody>
+                    <tr> </tr>
+                  <tr>
+                    <div class="form-check">
+                        <label class="form-check-label">
+                    <td class="align-middle text-left">
+                        <input type="radio" class="form-check-input" {% if form.picks.value == form.hteam.value %} checked {% endif %} name="picks-{{ form.fixture_id.value }}" id="{{ form.picks.id }}" value="{{ form.hteam.value }}" {{ form.status.value }}>
+                    </td>
+                    <td class="align-middle text-left"><img src="{{ form.hteam_url.value }}" height="60px"><h5>{{ form.hteam.value }}</h5></td>
+                    <td class="align-middle text-center text-success"><h1> </h1></td>
+                    <td class="align-middle text-center text-success"><h1> </h1></td>
+                    <td class="align-middle text-right"><img src="{{ form.ateam_url.value }}" height="60px"><h5>{{ form.ateam.value }}</h5></td>
+                    <td class="align-middle text-right">
+                        <input type="radio" class="form-check-input" {% if form.picks.value == form.ateam.value %} checked {% endif %} name="picks-{{ form.fixture_id.value }}" id="{{ form.picks.id }}" value="{{ form.ateam.value }}" {{ form.status.value }}>
+                    </td>
+                </label>
+                </div>
+                  </tr>
+                  {% if forloop.counter == 1 %}  
+                  <tr>
+                    <td colspan=1></td>
+                    <td colspan=5 class="text-center">
+                        <output id="ageOutputId">{{ form.margin.value }}</output>
+                    </td>
+                    </tr>
+                    <tr>
+                    <td colspan=1><h6>Margin</h6></td>
+                    <td colspan=6 class="text-center" width="100%">
+                        <input type="range" class="form-range" name="margin-score" id="ageInputId" value="{{ form.margin.value }}" min="0" max="100" oninput="ageOutputId.value = ageInputId.value" width="400px" {{ form.status.value }}>
+                    </td>
+                  </tr>
+                  {% endif %}
+                </tbody>
+              </table>
+            </div>
+        </div>
+        {% endfor %} 
+        <div class="row single center">
+            <input type="submit" class="btn btn-info" value="Submit Tips">
+        </div>
+        </div>
+    </form>
+
+  	</body>
+
+
+<style>
+    .form-range {
+  width: 100%;
+  height: 1.5rem;
+  padding: 0;
+  background-color: lightgray;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+}
+
+.btn {
+  margin-left: 10px;
+  margin-right: 10px;
+  width: 100%;
+  height: 40px;
+}
+/* Boostrap Buttons Styling */
+
+.btn-default {
+  font-family: Raleway-SemiBold;
+  font-size: 20px;
+  color: rgba(108, 88, 179, 0.75);
+  letter-spacing: 1px;
+  line-height: 15px;
+  border: 2px solid rgba(108, 89, 179, 0.75);
+  border-radius: 40px;
+  background: transparent;
+  transition: all 0.3s ease 0s;
+}
+
+.btn-default:hover {
+  color: #FFF;
+  background: rgba(108, 88, 179, 0.75);
+  border: 2px solid rgba(108, 89, 179, 0.75);
+}
+
+.btn-primary {
+  font-family: Raleway-SemiBold;
+  font-size: 13px;
+  color: rgba(58, 133, 191, 0.75);
+  letter-spacing: 1px;
+  line-height: 15px;
+  border: 2px solid rgba(58, 133, 191, 0.75);
+  border-radius: 40px;
+  background: transparent;
+  transition: all 0.3s ease 0s;
+}
+
+.btn-primary:hover {
+  color: #FFF;
+  background: rgba(58, 133, 191, 0.75);
+  border: 2px solid rgba(58, 133, 191, 0.75);
+}
+
+.btn-success {
+  font-family: Raleway-SemiBold;
+  font-size: 13px;
+  color: rgba(103, 192, 103, 0.75);
+  letter-spacing: 1px;
+  line-height: 15px;
+  border: 2px solid rgba(103, 192, 103, 0.75);
+  border-radius: 40px;
+  background: transparent;
+  transition: all 0.3s ease 0s;
+}
+
+.btn-success:hover {
+  color: #FFF;
+  background: rgb(103, 192, 103, 0.75);
+  border: 2px solid rgb(103, 192, 103, 0.75);
+}
+
+.btn-info {
+  font-family: Raleway-SemiBold;
+  font-size: 13px;
+  color: rgba(91, 192, 222, 0.75);
+  letter-spacing: 1px;
+  line-height: 15px;
+  border: 2px solid rgba(91, 192, 222, 0.75);
+  border-radius: 40px;
+  background: transparent;
+  transition: all 0.3s ease 0s;
+}
+
+.btn-info:hover {
+  color: #FFF;
+  background: rgba(91, 192, 222, 0.75);
+  border: 2px solid rgba(91, 192, 222, 0.75);
+}
+
+.btn-warning {
+  font-family: Raleway-SemiBold;
+  font-size: 13px;
+  color: rgba(240, 173, 78, 0.75);
+  letter-spacing: 1px;
+  line-height: 15px;
+  border: 2px solid rgba(240, 173, 78, 0.75);
+  border-radius: 40px;
+  background: transparent;
+  transition: all 0.3s ease 0s;
+}
+
+.btn-warning:hover {
+  color: #FFF;
+  background: rgb(240, 173, 78, 0.75);
+  border: 2px solid rgba(240, 173, 78, 0.75);
+}
+
+.btn-danger {
+  font-family: Raleway-SemiBold;
+  font-size: 13px;
+  color: rgba(217, 83, 78, 0.75);
+  letter-spacing: 1px;
+  line-height: 15px;
+  border: 2px solid rgba(217, 83, 78, 0.75);
+  border-radius: 40px;
+  background: transparent;
+  transition: all 0.3s ease 0s;
+}
+
+.btn-danger:hover {
+  color: #FFF;
+  background: rgba(217, 83, 78, 0.75);
+  border: 2px solid rgba(217, 83, 78, 0.75);
+}
+.ul {
+    width: 100%;
+    margin: 0;
+    padding: 0;
+}
+.li {
+    list-style-type: none;
+    display: inline-block;
+    padding-right: 10%;
+    width: auto;
+    margin-right: 0.5%;
+    padding-left: 0;
+    margin-left: 0;
+    margin: 1em 0;
+}
+</style>
+
+</html>

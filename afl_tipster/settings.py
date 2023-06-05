@@ -39,11 +39,20 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.sites',
+    'import_export',
+    'bootstrap4',
+    'crispy_forms',
+    'crispy_bootstrap4',
+    'django_crontab',
+    'fontawesomefree',
+    'widget_tweaks',
+    'django_tables2',
     'tipping',
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
-    'allauth.socialaccount.providers.google'
+    'allauth.socialaccount.providers.google',
+    'allauth.socialaccount.providers.azure',
 ]
 
 MIDDLEWARE = [
@@ -136,7 +145,7 @@ AUTHENTICATION_BACKENDS = [
     'allauth.account.auth_backends.AuthenticationBackend'
 ]
 
-SITE_ID = 1
+SITE_ID = 3
 
 LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/'
@@ -158,3 +167,11 @@ SOCIALACCOUNT_PROVIDERS = {
         }
     }
 }
+
+SOCIALACCOUNT_LOGIN_ON_GET = True
+
+CRONJOBS = [
+    ('*/2 * * * *', 'tipping.cron.update_afl_fixture')
+]
+
+CRISPY_TEMPLATE_PACK = 'bootstrap4'
