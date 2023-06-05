@@ -10,12 +10,13 @@ from datetime import date, timedelta, datetime
 from django.utils import timezone
 from django.forms import formset_factory, modelformset_factory
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.decorators import login_required
 from django_tables2 import SingleTableView
 from .tables import TippingsTable
 import re
 
 
-
+@login_required(login_url='/accounts/google/login/')
 def create_tips(request, round_id=None):
     if round_id is None:
         week_start = date.today()
@@ -129,6 +130,7 @@ class TipsView(LoginRequiredMixin, SingleTableView):
 
 
 # Create your views here.
+@login_required(login_url='/accounts/google/login/')
 def refresh_data(request):
     query_form = DataFreshForm()
     msg = ''
