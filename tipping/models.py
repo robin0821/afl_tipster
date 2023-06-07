@@ -53,7 +53,26 @@ class tippings(models.Model):
     date = models.DateTimeField(null=True, blank=True)
     venue = models.CharField(max_length=100, null=True, default='')
     status = models.CharField(max_length=20, null=True, default='')
+    has_margin = models.CharField(max_length=20, null=True, default='')
     rank = models.IntegerField(default=0)
 
-class tip_summary(models.Model):
-    pass
+class tip_ladder(models.Model):
+    email = models.CharField(max_length=100, primary_key=True, default='')
+    first_name = models.CharField(max_length=100, null=True, blank=True, default='')
+    last_name = models.CharField(max_length=100, null=True, blank=True, default='')
+    full_name = models.CharField(max_length=100, null=True, blank=True, default='')
+    total_tips = models.IntegerField(default=0, blank=True, null=True)
+    total_margin = models.IntegerField(default=0, blank=True, null=True)
+    avg_per_round = models.FloatField(default=0, blank=True, null=True)
+    rank = models.IntegerField(default=0, blank=True, null=True)
+    
+
+class AFLLadder(models.Model):
+    pos = models.IntegerField(default=0, primary_key=True)
+    club = models.CharField(max_length=100, null=True, blank=True, default='')
+    played = models.IntegerField(default=0)
+    wins = models.IntegerField(default=0)
+    losses = models.IntegerField(default=0)
+    draws = models.IntegerField(default=0)
+    pts = models.IntegerField(default=0)
+    logo = models.CharField(max_length=500, null=True, blank=True, default='')

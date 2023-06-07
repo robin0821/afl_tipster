@@ -1,6 +1,6 @@
 from django.shortcuts import render, HttpResponseRedirect
 from .forms import DataFreshForm
-from .models import AFLFixture, AFLTeams, tippings
+from .models import AFLFixture, AFLTeams, tippings, AFLLadder
 from .forms import TippingForm, CrispyTipping
 import requests
 import pandas as pd
@@ -90,7 +90,8 @@ def create_tips(request, round_id=None):
                 'pre_url': '/tipping/tips/{}/'.format(int(round_id - 1)), 
                 'next_url': '/tipping/tips/{}/'.format(int(round_id + 1)),
                 'current_url': '/tipping/tips/{}/'.format(int(round_id)), 
-                'disable_btn': disable_btn}
+                'disable_btn': disable_btn, 
+                'afl_ladder': AFLLadder.objects.all()}
     if request.method == 'POST':
         resp_data = request.POST.dict()
         print(resp_data)
@@ -99,18 +100,19 @@ def create_tips(request, round_id=None):
             if idx == 1:
                 fixture_id = re.findall(r'\d+', key)[0]
                 fixture_obj = AFLFixture.objects.filter(id=int(fixture_id))
-                tippings.objects.update_or_create(fixture_id=fixture_id, defaults={
+                tippings.objects.update_or_create(fixture_id=fixture_id, email=request.user.email, defaults={
                     'first_name': request.user.first_name, 'last_name': request.user.last_name, 
                     'email': request.user.email, 'round': fixture_obj.first().round,
                     'picks': value, 'fixture_id': fixture_id, 'hteam': fixture_obj.first().hteam, 
                     'ateam': fixture_obj.first().ateam, 'date': fixture_obj.first().date,
                     'venue': fixture_obj.first().venue, 'hteam_url': fixture_obj.first().hteamid.logo,
-                    'ateam_url': fixture_obj.first().ateamid.logo, 'margin': resp_data['margin-score']
+                    'ateam_url': fixture_obj.first().ateamid.logo, 'margin': resp_data['margin-score'],
+                    'has_margin': 'yes'
                 })
             elif idx > 2:
                 fixture_id = re.findall(r'\d+', key)[0]
                 fixture_obj = AFLFixture.objects.filter(id=int(fixture_id))
-                tippings.objects.update_or_create(fixture_id=fixture_id, defaults={
+                tippings.objects.update_or_create(fixture_id=fixture_id, email=request.user.email, defaults={
                     'first_name': request.user.first_name, 'last_name': request.user.last_name, 
                     'email': request.user.email, 'round': fixture_obj.first().round,
                     'picks': value, 'fixture_id': fixture_id, 'hteam': fixture_obj.first().hteam, 
@@ -174,10 +176,58 @@ def data_refreshing_exec(refresh_option):
                 dic['winnerteamid'] = AFLTeams(id = int(dic['winnerteamid']))
             except:
                 dic['winnerteamid'] = None
-            AFLFixture.objects.get_or_create(id=dic['id'], defaults=dic)
+            AFLFixture.objects.update_or_create(id=dic['id'], defaults=dic)
 
         return "AFL fixture data has been successfully updated!"
     elif refresh_option == 'Refresh Tippings':
-        return "Tipping refreshed"
+        tps = tippings.objects.all().exclude(status='completed')
+        print(tps)
+        fixts = AFLFixture.objects.filter(complete=100)
+        print(fixts)
+        for item in tps:
+            id = item.id
+            fixture_id = item.fixture_id
+            margin = item.margin
+            has_margin = item.has_margin
+            fixture = fixts.filter(id=fixture_id).first()
+            if fixture is not None:
+                try:
+                    winner = fixture.winner
+                except:
+                    winner = None
+                if item.picks == winner:
+                    tips = 1
+                else:
+                    tips = 0
+                if has_margin == 'yes':
+                    margin_diff = abs(margin - abs(int(fixture.hscore) - int(fixture.ascore)))
+                else: 
+                    margin_diff = 0
+                if item.date < timezone.now():
+                    status = 'completed'
+                else:
+                    status = ''
+                tippings.objects.filter(id=id).update(tips=tips, margin_diff=margin_diff, status=status, winner=winner)
+            else:
+                continue
+        return "Historical tipping data have been refreshed!"
     elif refresh_option == 'Refresh Summary':
         return "Summary refreshed"
+    
+    elif refresh_option == 'AFL Ladder':
+        url = 'https://api.squiggle.com.au/?q=standings;year=2023'
+        data = requests.get(url).json()['standings']
+        for item in data:
+            logo = AFLTeams.objects.filter(name=item['name']).first().logo
+            AFLLadder.objects.filter(pos=item['rank']).update_or_create(
+                pos = item['rank'], 
+                club = item['name'],
+                played = item['played'],
+                wins = item['wins'],
+                losses = item['losses'],
+                draws = item['draws'],
+                pts = item['pts'], 
+                logo = logo
+
+            )
+        return "Ladder data refreshed!"

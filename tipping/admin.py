@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django.contrib.admin.options import ModelAdmin
-from .models import AFLTeams, tippings, AFLFixture
+from .models import AFLTeams, tippings, AFLFixture, AFLLadder
 from import_export import resources
 from import_export.admin import ImportExportModelAdmin, ImportMixin, ExportMixin
 admin.site.site_header = 'intelia AFL Tipster'
@@ -21,22 +21,33 @@ class FixtureResource(resources.ModelResource):
     class Meta:
         model = AFLFixture
 
+class AFLLadderResource(resources.ModelResource):
+
+    class Meta:
+        model = AFLLadder
+
 class AFLTeamsAdmin(ImportExportModelAdmin):
     list_display = ('id', 'name', 'logo')
     readonly_fields = ('id', 'name', 'logo')
     resource_class = AFLTeamsResources
 
 class tippingsAdmin(ImportExportModelAdmin):
-    list_display = ('id', 'hteam', 'ateam', 'winner', 'localtime')
-    readonly_fields = ('id', 'hteam', 'ateam', 'winner', 'localtime')
+    list_display = ('id', 'first_name', 'last_name', 'email', 'hteam', 'ateam', 'winner', 'date', 'picks', 'fixture_id', 'status', 'tips', 'margin_diff', 'margin', 'has_margin')
+    readonly_fields = ('id', 'first_name', 'last_name', 'email', 'hteam', 'ateam', 'winner', 'date', 'picks', 'fixture_id', 'status', 'tips', 'margin_diff', 'margin', 'has_margin')
     resource_class = tippingsResources
 
 class FixtureAdmin(ImportExportModelAdmin):
-    list_display = ('id', 'hteam', 'ateam', 'winner', 'localtime', 'complete', 'updated', 'hgoals', 'agoals', 'date', 'venue')
+    list_display = ('id', 'hteam', 'ateam', 'winner', 'localtime', 'complete', 'updated', 'hgoals', 'agoals', 'hscore', 'ascore', 'date', 'venue')
     readonly_fields = ('id', 'hteam', 'ateam', 'winner', 'localtime', 'date')
     list_filter = ('roundname', 'hteamid', 'date')
     resource_class = FixtureResource
 
+class AFLLadderAdmin(ImportExportModelAdmin):
+    list_display = ('pos', 'club',  'played', 'wins', 'losses', 'draws', 'pts', 'logo')
+    readonly_fields = ('pos', 'club', 'played', 'wins', 'losses', 'draws', 'pts', 'logo')
+    resource_class = AFLLadderResource
+
 admin.site.register(AFLTeams, AFLTeamsAdmin)
 admin.site.register(AFLFixture, FixtureAdmin)
-admin.site.register(tippings)
+admin.site.register(tippings, tippingsAdmin)
+admin.site.register(AFLLadder, AFLLadderAdmin)

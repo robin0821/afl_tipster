@@ -11,7 +11,8 @@ class DataFreshForm(forms.Form):
     update_choices = (
         ('Refresh Fixture', 'Refresh Fixture'),
         ('Refresh Tippings', 'Refresh Tippings'),
-        ('Refresh Summary', 'Refresh Summary')
+        ('Refresh Summary', 'Refresh Summary'),
+        ('AFL Ladder', 'AFL Ladder')
     )
 
     refresh_options = forms.ChoiceField(choices=update_choices, initial='Refresh Fixture')
@@ -52,7 +53,7 @@ class CrispyTipping(forms.ModelForm):
     )
     class Meta:
         model = tippings
-        fields = ['first_name', 'last_name', 'email', 'fixture_id', 'picks', 'margin', 'hteam', 'ateam', 'hteam_url', 'ateam_url', 'date', 'venue', 'status']
+        fields = ['first_name', 'last_name', 'email', 'fixture_id', 'picks', 'margin', 'hteam', 'ateam', 'hteam_url', 'ateam_url', 'date', 'venue', 'status', 'has_margin']
         
     def __init__(self, *args, **kwargs):
         choices = (('hteam', 'hteam'), ('ateam', 'ateam'))
@@ -68,6 +69,7 @@ class CrispyTipping(forms.ModelForm):
         self.fields['venue'].widget = HiddenInput()
         self.fields['fixture_id'].widget = HiddenInput()
         self.fields['status'].widget = HiddenInput()
+        self.fields['has_margin'].widget = HiddenInput()
         self.fields['picks'] = forms.ChoiceField(required=True, widget=forms.RadioSelect, choices=choices)
         self.helper = FormHelper()
         self.helper.form_method = 'POST'

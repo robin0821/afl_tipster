@@ -10,10 +10,9 @@
             <a class="nav-link" aria-current="page" href="#">Welcome, {{ user.first_name }} {{ user.last_name }}</a>
           {% endif %}
           <a class="nav-link" href="{% url 'tips' %}">Tipping</a>
-          <a class="nav-link" href="#">Ladder</a>
-          <a class="nav-link" href="#" >View Tips</a>
+          <a class="nav-link" href="{% url 'tips_list' %}" >View Tips</a>
           {% if user.is_authenticated %}
-            <a class="nav-link" href="{% url 'logout' %}" >Sign Out</a>
+            <a class="nav-link" href="{% url 'account_logout' %}" >Sign Out</a>
           {% endif %}
         </div>
       </div>

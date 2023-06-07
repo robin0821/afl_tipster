@@ -22,9 +22,43 @@
     	<!--CTA-->
 
  		<!--Products-->
+     
+     <div class="row">
+      <div class="col-lg-3 hidden-sm">
+        <div class="wrapper">
+          <h4>Tipping Ladder</h4>          
+          <table class="table-hover text-center" style="table-layout: fixed; width:100%" >
+            <thead>
+              <tr>
+                <th style="width: 20px;"><small><b>RK</b></small></th>
+                <th style="width: 90px;" class="text-center"><small><b>Full Name</b></small></th>
+                <th style="width: 30px;"><small><b>TT</b></small></th>
+                <th style="width: 30px;"><small><b>AVG</b></small></th>
+                <th style="width: 30px;"><small><b>TM</b></small></th>
+                <th style="width: 30px;"><small><b>R12</b></small></th>
+                <th style="width: 30px;"><small><b>R12M</b></small></th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for item in afl_ladder %}
+              <tr class="bg-light">
+                <td style="width: 20px; height: 40px;"><small><b>{{ item.pos }}</b></small></td>
+                <td style="width: 80px;" class="text-left"><small><b>{{ item.club }}</b></small></td>
+                <td style="width: 40px;"><small>{{ item.played }}</small></td>
+                <td style="width: 40px;"><small>{{ item.wins }}</small></td>
+                <td style="width: 40px;"><small>{{ item.losses }}</small></td>
+                <td style="width: 40px;"><small>{{ item.draws }}</small></td>
+                <td style="width: 40px;"><small>{{ item.pts }}</small></td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table> 
+        </div>
+      </div>
+     <div class="col-lg-6 col-xs-12">
          <div class="container py-3">
-            {% include "navbar.html" %}  
-            <table class="table table-sm table-borderless">
+          {% include "navbar.html" %} 
+            <table class="table-borderless col-md-12">
                 <thead>
                 <tbody>
                     <tr> 
@@ -58,14 +92,14 @@
                     <div class="form-check">
                         <label class="form-check-label">
                     <td class="align-middle text-left">
-                        <input type="radio" class="form-check-input" {% if form.picks.value == form.hteam.value %} checked {% endif %} name="picks-{{ form.fixture_id.value }}" id="{{ form.picks.id }}" value="{{ form.hteam.value }}" {{ form.status.value }}>
+                        <input type="radio" class="form-check-input" {% if form.picks.value == form.hteam.value %} checked {% endif %} name="picks-{{ form.fixture_id.value }}" id="{{ form.picks.id }}" value="{{ form.hteam.value }}" {{ form.status.value }} required>
                     </td>
                     <td class="align-middle text-left"><img src="{{ form.hteam_url.value }}" height="60px"><h5>{{ form.hteam.value }}</h5></td>
                     <td class="align-middle text-center text-success"><h1> </h1></td>
                     <td class="align-middle text-center text-success"><h1> </h1></td>
                     <td class="align-middle text-right"><img src="{{ form.ateam_url.value }}" height="60px"><h5>{{ form.ateam.value }}</h5></td>
                     <td class="align-middle text-right">
-                        <input type="radio" class="form-check-input" {% if form.picks.value == form.ateam.value %} checked {% endif %} name="picks-{{ form.fixture_id.value }}" id="{{ form.picks.id }}" value="{{ form.ateam.value }}" {{ form.status.value }}>
+                        <input type="radio" class="form-check-input" {% if form.picks.value == form.ateam.value %} checked {% endif %} name="picks-{{ form.fixture_id.value }}" id="{{ form.picks.id }}" value="{{ form.ateam.value }}" {{ form.status.value }} required>
                     </td>
                 </label>
                 </div>
@@ -94,6 +128,43 @@
         </div>
         </div>
     </form>
+  </div> 
+  <div class="col-lg-3">
+    <div class="wrapper">
+      <h4>AFL Ladder</h4>          
+      <table class="table-hover text-center" style="table-layout: fixed; width:100%" >
+        <thead>
+          <tr>
+            <th style="width: 20px;"><small><b>RK</b></small></th>
+            <th style="width: 20px;"><small><b></b></small></th>
+            <th style="width: 120px;" class="text-left"><small><b>Club</b></small></th>
+            <th style="width: 18px;"><small><b>P</b></small></th>
+            <th style="width: 18px;"><small><b>W</b></small></th>
+            <th style="width: 18px;"><small><b>L</b></small></th>
+            <th style="width: 18px;"><small><b>D</b></small></th>
+            <th style="width: 18px;"><small><b>PTS</b></small></th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for item in afl_ladder %}
+          <tr class="bg-light">
+            <td style="width: 20px; height: 40px;"><small><b>{{ item.pos }}</b></small></td>
+            <td style="width: 50px;" class="text-left"><img src="{{ item.logo }}" height="15px" width="30px"></td>
+            <td style="width: 120px;" class="text-left"><small><b>{{ item.club }}</b></small></td>
+            <td style="width: 20px;"><small>{{ item.played }}</small></td>
+            <td style="width: 20px;"><small>{{ item.wins }}</small></td>
+            <td style="width: 20px;"><small>{{ item.losses }}</small></td>
+            <td style="width: 20px;"><small>{{ item.draws }}</small></td>
+            <td style="width: 20px;"><small>{{ item.pts }}</small></td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table> 
+    </div>
+  </div>
+</div>
+
+
 
   	</body>
 
@@ -238,6 +309,107 @@
     padding-left: 0;
     margin-left: 0;
     margin: 1em 0;
+}
+
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap');
+
+/* Reseting */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+.wrapper {
+    max-width: 350px;
+    min-height: 100px;
+    margin: 100px auto;
+    padding: 20px 20px 20px 20px;
+    background-color: #f3ecec;
+    border-radius: 5px;
+    box-shadow: 0px 0px 0px #cbced1;
+}
+
+.logo {
+    width: 80px;
+    margin: auto;
+}
+
+.logo img {
+    width: 100%;
+    height: 80px;
+    object-fit: cover;
+    border-radius: 50%;
+    box-shadow: 0px 0px 3px #5f5f5f,
+        0px 0px 0px 5px #ecf0f3,
+        8px 8px 15px #a7aaa7,
+        -8px -8px 15px #fff;
+}
+
+.wrapper .name {
+    font-weight: 600;
+    font-size: 1.4rem;
+    letter-spacing: 1.3px;
+    padding-left: 10px;
+    color: #555;
+}
+
+.wrapper .form-field input {
+    width: 100%;
+    display: block;
+    border: none;
+    outline: none;
+    background: none;
+    font-size: 1.2rem;
+    color: #666;
+    padding: 10px 15px 10px 10px;
+    /* border: 1px solid red; */
+}
+
+.wrapper .form-field {
+    padding-left: 10px;
+    margin-bottom: 20px;
+    border-radius: 20px;
+    box-shadow: inset 8px 8px 8px #cbced1, inset -8px -8px 8px #fff;
+}
+
+.wrapper .form-field .fas {
+    color: #555;
+}
+
+.wrapper .btn {
+    box-shadow: none;
+    width: 100%;
+    height: 40px;
+    background-color: #03A9F4;
+    color: #fff;
+    border-radius: 25px;
+    box-shadow: 3px 3px 3px #b1b1b1,
+        -3px -3px 3px #fff;
+    letter-spacing: 1.3px;
+}
+
+.wrapper .btn:hover {
+    background-color: #039BE5;
+}
+
+.wrapper a {
+    text-decoration: none;
+    padding-top: 10px;
+    font-size: 0.8rem;
+    color: #03A9F4;
+}
+
+.wrapper a:hover {
+    color: #b1b1b1;
+}
+
+@media(max-width: 380px) {
+    .wrapper {
+        margin: 30px 20px;
+        padding: 40px 15px 15px 15px;
+    }
 }
 </style>
 
