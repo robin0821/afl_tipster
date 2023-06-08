@@ -35,20 +35,20 @@
                 <th style="width: 30px;"><small><b>TT</b></small></th>
                 <th style="width: 30px;"><small><b>AVG</b></small></th>
                 <th style="width: 30px;"><small><b>TM</b></small></th>
-                <th style="width: 30px;"><small><b>R12</b></small></th>
-                <th style="width: 30px;"><small><b>R12M</b></small></th>
+                <th style="width: 30px;"><small><b>R{{ round_id | add:-1 }}</b></small></th>
+                <th style="width: 30px;"><small><b>R{{ round_id | add:-1 }}M</b></small></th>
               </tr>
             </thead>
             <tbody>
-              {% for item in afl_ladder %}
+              {% for item in tipping_ladder %}
               <tr class="bg-light">
-                <td style="width: 20px; height: 40px;"><small><b>{{ item.pos }}</b></small></td>
-                <td style="width: 80px;" class="text-left"><small><b>{{ item.club }}</b></small></td>
-                <td style="width: 40px;"><small>{{ item.played }}</small></td>
-                <td style="width: 40px;"><small>{{ item.wins }}</small></td>
-                <td style="width: 40px;"><small>{{ item.losses }}</small></td>
-                <td style="width: 40px;"><small>{{ item.draws }}</small></td>
-                <td style="width: 40px;"><small>{{ item.pts }}</small></td>
+                <td style="width: 20px; height: 40px;"><small><b>{{ item.rank }}</b></small></td>
+                <td style="width: 80px;" class="text-left"><small><b>{{ item.full_name }}</b></small></td>
+                <td style="width: 40px;"><small>{{ item.total_tips }}</small></td>
+                <td style="width: 40px;"><small>{{ item.avg_per_round }}</small></td>
+                <td style="width: 40px;"><small>{{ item.total_margin }}</small></td>
+                <td style="width: 40px;"><small>{{ item.last_round_tips }}</small></td>
+                <td style="width: 40px;"><small>{{ item.last_round_margin }}</small></td>
               </tr>
               {% endfor %}
             </tbody>

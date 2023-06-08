@@ -11,7 +11,7 @@ class DataFreshForm(forms.Form):
     update_choices = (
         ('Refresh Fixture', 'Refresh Fixture'),
         ('Refresh Tippings', 'Refresh Tippings'),
-        ('Refresh Summary', 'Refresh Summary'),
+        ('Refresh Tipping Ladder', 'Refresh Tipping Ladder'),
         ('AFL Ladder', 'AFL Ladder')
     )
 

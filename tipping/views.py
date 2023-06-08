@@ -1,6 +1,6 @@
 from django.shortcuts import render, HttpResponseRedirect
 from .forms import DataFreshForm
-from .models import AFLFixture, AFLTeams, tippings, AFLLadder
+from .models import AFLFixture, AFLTeams, tippings, AFLLadder, tip_ladder
 from .forms import TippingForm, CrispyTipping
 import requests
 import pandas as pd
@@ -91,7 +91,8 @@ def create_tips(request, round_id=None):
                 'next_url': '/tipping/tips/{}/'.format(int(round_id + 1)),
                 'current_url': '/tipping/tips/{}/'.format(int(round_id)), 
                 'disable_btn': disable_btn, 
-                'afl_ladder': AFLLadder.objects.all()}
+                'afl_ladder': AFLLadder.objects.all(),
+                'tipping_ladder': tip_ladder.objects.all().order_by('rank')}
     if request.method == 'POST':
         resp_data = request.POST.dict()
         print(resp_data)
@@ -211,8 +212,37 @@ def data_refreshing_exec(refresh_option):
             else:
                 continue
         return "Historical tipping data have been refreshed!"
-    elif refresh_option == 'Refresh Summary':
-        return "Summary refreshed"
+    elif refresh_option == 'Refresh Tipping Ladder':
+        week_start = date.today()
+        week_start -= timedelta(days=week_start.weekday())
+        week_end = week_start + timedelta(days=7)
+        fixture_data = AFLFixture.objects.filter(date__gte=week_start, date__lt=week_end).order_by('date')
+        round_id = fixture_data.first().round - 1
+    
+        engine = create_engine('sqlite:///db.sqlite3', echo=True)
+        sqlite_connection = engine.connect()
+        sql = "select * from tipping_tippings where status='completed'"
+        tf = pd.read_sql(sql, engine)
+        df1 = tf.groupby(['email', 'first_name', 'last_name'])[['tips', 'margin_diff', 'round']].agg(
+            {'tips': 'sum', 'margin_diff': 'sum', 'round': pd.Series.nunique})
+        df1 = df1.reset_index()
+        df1.columns = ['email', 'first_name', 'last_name', 'total_tips', 'total_margin', 'rounds_tipped']
+        df1['avg_per_round'] = df1['total_tips'] / df1['rounds_tipped']
+        tf1 = tf.loc[tf['round']==round_id]
+        df2 = tf1.groupby('email')[['tips', 'margin_diff']].sum().reset_index()
+        df2.columns = ['email', 'last_round_tips', 'last_round_margin']
+        df = df1.merge(df2, on='email', how='left')
+        df = df.fillna(0)
+        df['full_name'] = df['first_name'] + ' ' + df['last_name']
+        df = df.sort_values(['total_tips', 'total_margin'], ascending=[False, True])
+        df = df.reset_index(drop=True)
+        df['rank'] = df.index + 1
+
+        json_list = json.loads(json.dumps(list(df.T.to_dict().values())))
+        for dic in json_list:
+            tip_ladder.objects.update_or_create(email=dic['email'], defaults=dic)
+
+        return "Tipping ladder refreshed"
     
     elif refresh_option == 'AFL Ladder':
         url = 'https://api.squiggle.com.au/?q=standings;year=2023'

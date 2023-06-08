@@ -64,6 +64,9 @@ class tip_ladder(models.Model):
     total_tips = models.IntegerField(default=0, blank=True, null=True)
     total_margin = models.IntegerField(default=0, blank=True, null=True)
     avg_per_round = models.FloatField(default=0, blank=True, null=True)
+    last_round_tips = models.IntegerField(default=0, blank=True, null=True)
+    last_round_margin = models.IntegerField(default=0, blank=True, null=True)
+    rounds_tipped = models.IntegerField(default=0, blank=True, null=True)
     rank = models.IntegerField(default=0, blank=True, null=True)
     
 
