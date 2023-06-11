@@ -37,8 +37,8 @@ class AFLTeamsAdmin(ImportExportModelAdmin):
     resource_class = AFLTeamsResources
 
 class tippingsAdmin(ImportExportModelAdmin):
-    list_display = ('id', 'first_name', 'last_name', 'email', 'hteam', 'ateam', 'winner', 'date', 'picks', 'fixture_id', 'status', 'tips', 'margin_diff', 'margin', 'has_margin')
-    readonly_fields = ('id', 'first_name', 'last_name', 'email', 'hteam', 'ateam', 'winner', 'date', 'picks', 'fixture_id', 'status', 'tips', 'margin_diff', 'margin', 'has_margin')
+    list_display = ('id', 'round', 'first_name', 'last_name', 'email', 'hteam', 'ateam', 'winner', 'date', 'picks', 'fixture_id', 'status', 'tips', 'margin_diff', 'margin', 'has_margin')
+    readonly_fields = ('id', 'round', 'first_name', 'last_name', 'email', 'hteam', 'ateam', 'winner', 'date', 'picks', 'fixture_id', 'status', 'tips', 'margin_diff', 'margin', 'has_margin')
     resource_class = tippingsResources
 
 class FixtureAdmin(ImportExportModelAdmin):
