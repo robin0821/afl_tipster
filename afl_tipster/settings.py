@@ -126,7 +126,6 @@ WSGI_APPLICATION = 'afl_tipster.wsgi.application'
 # }
 
 DATABASES = {'default': env.db()}
-print(DATABASES)
 
 
 # Password validation
