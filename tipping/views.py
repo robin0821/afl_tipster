@@ -1,4 +1,5 @@
 from django.shortcuts import render, HttpResponseRedirect
+from django.contrib.auth import get_user_model
 from .forms import DataFreshForm
 from .models import AFLFixture, AFLTeams, tippings, AFLLadder, tip_ladder
 from .forms import TippingForm, CrispyTipping
@@ -15,6 +16,8 @@ from django_tables2 import SingleTableView
 from .tables import TippingsTable
 import re
 
+User = get_user_model()
+users = User.objects.all()
 
 @login_required(login_url='/accounts/google/login/')
 def create_tips(request, round_id=None):
@@ -173,10 +176,25 @@ def data_refreshing_exec(refresh_option):
 
         return "AFL fixture data has been successfully updated!"
     elif refresh_option == 'Refresh Tippings':
+        # Auto-populate tippings data if non-input
+        week_start = date.today()
+        week_start -= timedelta(days=week_start.weekday())
+        week_end = week_start + timedelta(days=7)
+        fixture_data = AFLFixture.objects.filter(date__gte=week_start, date__lt=week_end).order_by('date')
+        round_id = fixture_data.first().round - 1
+        fixture_data = AFLFixture.objects.filter(round=round_id)
+
+        for item in users:
+            print(item.first_name, item.last_name, item.email)
+            for fixture in fixture_data:
+                tippings.objects.get_or_create(email=item.email, fixture_id=fixture.id, defaults={
+                        'round': round_id, 'first_name': item.first_name, 'last_name': item.last_name, 'email': item.email,
+                        'hteam': fixture.hteam, 'ateam': fixture.ateam, 'date': fixture.date, 'picks': fixture.ateam, 
+                        'fixture_id': fixture.id, 'auto': 'yes'})
+        # Calculate tipping points
         tps = tippings.objects.all().exclude(status='completed')
         print(tps)
         fixts = AFLFixture.objects.filter(complete=100)
-        print(fixts)
         for item in tps:
             id = item.id
             fixture_id = item.fixture_id

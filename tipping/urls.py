@@ -8,4 +8,5 @@ urlpatterns = [
     path('tips/<int:round_id>/', create_tips, name='tips'),
     path('tips/', create_tips, name='tips'),
     path('tips_list/', TipsView.as_view(), name='tips_list'), 
+    path('about/', TemplateView.as_view(template_name='about.html'), name='about')
 ]
