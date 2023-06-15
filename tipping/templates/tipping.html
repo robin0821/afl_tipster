@@ -63,13 +63,13 @@
                 <tbody>
                     <tr> 
                         <td class="align-middle text-left">
-                           <a href="{{ pre_url }}"><b class="text-info">&#60; Round {{ round_id | add:-1 }}</b></a>
+                           <a href="{{ pre_url }}" {% if round_id|add:-1 < 14 %} style="pointer-events: none;" {% else %} style="" {% endif %}><b {% if round_id|add:-1 < 14 %} class="text-light" {% else %} class="text-info" {% endif %}>&#60; Round {{ round_id | add:-1 }}</b></a>
                         </td>
                         <td class="align-middle text-center">
                             <h4 class="text-dark">Round {{ round_id }}</h4>
                         </td>
                         <td class="align-middle text-right">
-                            <a href="{{ next_url }}"><b class="text-info">Round {{ round_id | add:1 }}&#62;</b></a>
+                            <a href="{{ next_url }}" {% if round_id|add:+1 > 24 %} style="pointer-events: none;" {% else %} style="" {% endif %}><b {% if round_id|add:+1 > 24 %} class="text-light" {% else %} class="text-info" {% endif %}>Round {{ round_id | add:1 }}&#62;</b></a>
                         </td>
                     </tr>
                 </tbody>
