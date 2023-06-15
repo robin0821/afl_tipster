@@ -63,13 +63,13 @@
                 <tbody>
                     <tr> 
                         <td class="align-middle text-left">
-                           <a href="{{ pre_url }}" {% if round_id|add:-1 < 14 %} style="pointer-events: none;" {% else %} style="" {% endif %}><b {% if round_id|add:-1 < 14 %} class="text-light" {% else %} class="text-info" {% endif %}>&#60; Round {{ round_id | add:-1 }}</b></a>
+                           <a href="{{ pre_url }}" {% if round_id|add:-1 < 14 %} style="pointer-events: none;" {% else %} style="" {% endif %}><b {% if round_id|add:-1 < 14 %} class="text-dark" {% else %} class="text-light" {% endif %}>&#60; Round {{ round_id | add:-1 }}</b></a>
                         </td>
                         <td class="align-middle text-center">
-                            <h4 class="text-dark">Round {{ round_id }}</h4>
+                            <h4 class="text-light">Round {{ round_id }}</h4>
                         </td>
                         <td class="align-middle text-right">
-                            <a href="{{ next_url }}" {% if round_id|add:+1 > 24 %} style="pointer-events: none;" {% else %} style="" {% endif %}><b {% if round_id|add:+1 > 24 %} class="text-light" {% else %} class="text-info" {% endif %}>Round {{ round_id | add:1 }}&#62;</b></a>
+                            <a href="{{ next_url }}" {% if round_id|add:+1 > 24 %} style="pointer-events: none;" {% else %} style="" {% endif %}><b {% if round_id|add:+1 > 24 %} class="text-dark" {% else %} class="text-light" {% endif %}>Round {{ round_id | add:1 }}&#62;</b></a>
                         </td>
                     </tr>
                 </tbody>
@@ -149,7 +149,7 @@
           {% for item in afl_ladder %}
           <tr class="bg-light">
             <td style="width: 20px; height: 40px;"><small><b>{{ item.pos }}</b></small></td>
-            <td style="width: 50px;" class="text-left"><img src="{{ item.logo }}" height="15px" width="30px"></td>
+            <td style="width: 50px;" class="text-left"><img src="{{ item.logo }}" height="15px" width="20px"></td>
             <td style="width: 120px;" class="text-left"><small><b>{{ item.club }}</b></small></td>
             <td style="width: 20px;"><small>{{ item.played }}</small></td>
             <td style="width: 20px;"><small>{{ item.wins }}</small></td>
@@ -170,6 +170,11 @@
 
 
 <style>
+
+body {
+    background-image: url('https://storage.googleapis.com/afl_statics/staticfiles/intelia_background.png');
+
+}
     .form-range {
   width: 100%;
   height: 1.5rem;
