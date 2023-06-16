@@ -9,9 +9,9 @@
           {% if user.is_authenticated %}
             <a class="nav-link text-light" aria-current="page" href="#">Welcome, {{ user.first_name }} {{ user.last_name }}</a>
           {% endif %}
-          <a class="nav-link text-light" href="{% url 'tips' %}">Tipping</a>
-          <a class="nav-link text-light" href="{% url 'tips_list' %}" >View Tips</a>
-          <a class="nav-link text-light" href="{% url 'about' %}" >About</a>
+          <a class="nav-link text-light" href="{% url 'tips' %}">Enter Tips</a>
+          <a class="nav-link text-light" href="{% url 'tips_list' %}" >Tipping Ladder</a>
+          <a class="nav-link text-light" href="{% url 'about' %}" >Help</a>
           {% if user.is_authenticated %}
             <a class="nav-link text-light" href="{% url 'account_logout' %}" >Sign Out</a>
           {% endif %}

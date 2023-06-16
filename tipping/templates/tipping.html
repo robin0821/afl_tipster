@@ -77,12 +77,14 @@
             </table>
         <form id="tipping-form-set", name="tipping-form-set", action="{{ current_url }}" method="post" enctype="multipart/form-data">
             {% csrf_token %}
+            <div class="row"><p>&nbsp;</p></div>
             <div class="row single center">
-                <input type="submit" class="btn btn-info" value="Submit Tips" {{ disable_btn }}>
+                <input type="submit" class="btn btn-info text-light" value="Submit Tips" {{ disable_btn }}>
             </div>
+            <div class="row"><p>&nbsp;</p></div>
             {% for form in formset %}
             <div class="card">
-                <h6 class="card-header">{{ form.date.value }} {{ form.venue.value }}</h6>
+                <h6 class="card-header">{{ form.date.value | date:"l" }}, {{ form.date.value }} {{ form.venue.value }}</h6>
                 <div class="card-body">
             <table class="table table-sm table-borderless">
                 <thead>
@@ -123,14 +125,15 @@
             </div>
         </div>
         {% endfor %} 
+        <div class="row"><p>&nbsp;</p></div>
         <div class="row single center">
-            <input type="submit" class="btn btn-info" value="Submit Tips" {{ disable_btn }}>
+            <input type="submit" class="btn btn-info text-light" value="Submit Tips" {{ disable_btn }}>
         </div>
         </div>
     </form>
   </div> 
   <div class="col-lg-3">
-    <div class="wrapper">
+    <div class="wrapper ml-auto">
       <h4>AFL Ladder</h4>          
       <table class="table-hover text-center" style="table-layout: fixed; width:100%" >
         <thead>
@@ -173,7 +176,8 @@
 
 body {
     background-image: url('https://storage.googleapis.com/afl_statics/staticfiles/intelia_background.png');
-
+    background-size: cover;
+    background-repeat: no-repeat;
 }
     .form-range {
   width: 100%;
@@ -194,7 +198,6 @@ body {
 /* Boostrap Buttons Styling */
 
 .btn-default {
-  font-family: Raleway-SemiBold;
   font-size: 20px;
   color: rgba(108, 88, 179, 0.75);
   letter-spacing: 1px;
@@ -248,14 +251,13 @@ body {
 }
 
 .btn-info {
-  font-family: Raleway-SemiBold;
   font-size: 13px;
   color: rgba(91, 192, 222, 0.75);
   letter-spacing: 1px;
   line-height: 15px;
   border: 2px solid rgba(91, 192, 222, 0.75);
   border-radius: 40px;
-  background: transparent;
+  background: #00aa7f;
   transition: all 0.3s ease 0s;
 }
 

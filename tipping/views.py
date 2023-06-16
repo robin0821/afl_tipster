@@ -15,6 +15,7 @@ from django.contrib.auth.decorators import login_required
 from django_tables2 import SingleTableView
 from .tables import TippingsTable
 import re
+import calendar
 
 User = get_user_model()
 users = User.objects.all()
@@ -29,7 +30,8 @@ def create_tips(request, round_id=None):
                 week_start -= timedelta(days=week_start.weekday())
                 week_end = week_start + timedelta(days=7)
                 fixture_data = AFLFixture.objects.filter(date__gte=week_start, date__lt=week_end).order_by('date')
-                round_id = fixture_data.first().round
+                round_id = fixture_data.last().round
+                fixture_data = AFLFixture.objects.filter(round=round_id).order_by('date')
         else:
             fixture_data = AFLFixture.objects.filter(round=round_id).order_by('date')
 
@@ -112,7 +114,7 @@ def create_tips(request, round_id=None):
     return render(request, 'tipping.html', context)
 
 class TipsView(LoginRequiredMixin, SingleTableView):
-    model = tippings
+    model = tip_ladder
     table_class = TippingsTable
     template_name = 'tips.html'
 
@@ -172,6 +174,31 @@ def data_refreshing_exec(refresh_option):
                 dic['hscore'] = None
             if dic['ascore'] == '':
                 dic['ascore'] = None
+            # update venue names
+            if dic['venue'] == 'Kardinia Park':
+                dic['venue'] = 'GMHBA Stadium'
+            elif dic['venue'] == 'Docklands':
+                dic['venue'] = 'Marvel Stadium'
+            elif dic['venue'] == 'Carrara':
+                dic['venue'] = 'Heritage Bank Stadium'
+            elif dic['venue'] == 'Perth Stadium':
+                dic['venue'] = 'Optus Stadium'
+            elif dic['venue'] == 'Traeger Park':
+                dic['venue'] = 'TIO Stadium'
+            elif dic['venue'] == 'Eureka Stadium':
+                dic['venue'] = 'Mars Stadium'
+            elif dic['venue'] == 'Bellerive Oval':
+                dic['venue'] = 'Blundstone Arena'
+            elif dic['venue'] == 'York Park':
+                dic['venue'] = 'UTAS Stadium'
+
+            # update team name
+            if dic['hteam'] == 'Greater Western Sydney':
+                dic['hteam'] = 'GWS Giants'
+            if dic['ateam'] == 'Greater Western Sydney':
+                dic['ateam'] = 'GWS Giants'
+            if dic['winner'] == 'Greater Western Sydney':
+                dic['winner'] = 'GWS Giants'
             AFLFixture.objects.update_or_create(id=dic['id'], defaults=dic)
 
         return "AFL fixture data has been successfully updated!"
@@ -265,6 +292,8 @@ def data_refreshing_exec(refresh_option):
         AFLLadder.objects.all().delete()
         for item in data:
             logo = AFLTeams.objects.filter(name=item['name']).first().logo
+            if item['name'] == 'Greater Western Sydney':
+                item['name'] = 'GWS Giants'
             AFLLadder.objects.filter(pos=item['rank']).update_or_create(
                 pos = item['rank'],
                 club = item['name'],
