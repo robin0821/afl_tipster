@@ -24,31 +24,32 @@
  		<!--Products-->
      
      <div class="row">
-      <div class="col-lg-3 hidden-sm">
-        <div class="wrapper">
+      <div class="col-lg-1"></div>
+      <div class="col-lg-2 hidden-sm">
+        <div class="wrapper text-dark">
           <h4>Tipping Ladder</h4>          
-          <table class="table-hover text-center" style="table-layout: fixed; width:100%" >
+          <table class="table-hover text-center text-dark" style="table-layout: fixed; width:100%" >
             <thead>
               <tr>
-                <th style="width: 20px;"><small><b>RK</b></small></th>
-                <th style="width: 90px;" class="text-center"><small><b>Full Name</b></small></th>
-                <th style="width: 30px;"><small><b>TT</b></small></th>
-                <th style="width: 30px;"><small><b>AVG</b></small></th>
-                <th style="width: 30px;"><small><b>TM</b></small></th>
-                <th style="width: 30px;"><small><b>R{{ round_id | add:-1 }}</b></small></th>
-                <th style="width: 30px;"><small><b>R{{ round_id | add:-1 }}M</b></small></th>
+                <th style="width: 20px; font-size: 12px;"><b>RK</b></th>
+                <th style="width: 90px; font-size: 12px;" class="text-center"><b>Full Name</b></th>
+                <th style="width: 30px; font-size: 12px;"><b>TT</b></th>
+                <th style="width: 30px; font-size: 12px;"><b>AVG</b></th>
+                <th style="width: 30px; font-size: 12px;"><b>TM</b></th>
+                <th style="width: 30px; font-size: 12px;"><b>R{{ round_id | add:-1 }}</b></th>
+                <th style="width: 30px; font-size: 12px;"><b>R{{ round_id | add:-1 }}M</b></th>
               </tr>
             </thead>
             <tbody>
               {% for item in tipping_ladder %}
               <tr class="bg-light">
-                <td style="width: 20px; height: 40px;"><small><b>{{ item.rank }}</b></small></td>
-                <td style="width: 80px;" class="text-left"><small><b>{{ item.full_name }}</b></small></td>
-                <td style="width: 40px;"><small>{{ item.total_tips }}</small></td>
-                <td style="width: 40px;"><small>{{ item.avg_per_round }}</small></td>
-                <td style="width: 40px;"><small>{{ item.total_margin }}</small></td>
-                <td style="width: 40px;"><small>{{ item.last_round_tips }}</small></td>
-                <td style="width: 40px;"><small>{{ item.last_round_margin }}</small></td>
+                <td style="width: 20px; height: 40px; font-size: 12px;"><b>{{ item.rank }}</b></td>
+                <td style="width: 80px; font-size: 12px;" class="text-left"><b>{{ item.full_name }}</b></td>
+                <td style="width: 40px; font-size: 12px;">{{ item.total_tips }}</td>
+                <td style="width: 40px; font-size: 12px;">{{ item.avg_per_round }}</td>
+                <td style="width: 40px; font-size: 12px;">{{ item.total_margin }}</td>
+                <td style="width: 40px; font-size: 12px;">{{ item.last_round_tips }}</td>
+                <td style="width: 40px; font-size: 12px;">{{ item.last_round_margin }}</td>
               </tr>
               {% endfor %}
             </tbody>
@@ -89,17 +90,25 @@
             <table class="table table-sm table-borderless">
                 <thead>
                 <tbody>
-                    <tr> </tr>
                   <tr>
+                    <th style="width: 10%"></th>
+                    <th style="width: 30%"></th>
+                    <th style="width: 10%"></th>
+                    <th style="width: 10%"></th>
+                    <th style="width: 30%"></th>
+                    <th style="width: 10%"></th>
+                  </tr>
+                  <tr>
+                    <td class="align-middle text-left">
                     <div class="form-check">
                         <label class="form-check-label">
-                    <td class="align-middle text-left">
+                    
                         <input type="radio" class="form-check-input" {% if form.picks.value == form.hteam.value %} checked {% endif %} name="picks-{{ form.fixture_id.value }}" id="{{ form.picks.id }}" value="{{ form.hteam.value }}" {{ form.status.value }} required>
                     </td>
-                    <td class="align-middle text-left"><img src="{{ form.hteam_url.value }}" height="60px"><h5>{{ form.hteam.value }}</h5></td>
+                    <td class="align-middle text-center"><img src="{{ form.hteam_url.value }}" height="60px"><h6>{{ form.hteam.value }}</h6></td>
                     <td class="align-middle text-center text-success"><h1> </h1></td>
                     <td class="align-middle text-center text-success"><h1> </h1></td>
-                    <td class="align-middle text-right"><img src="{{ form.ateam_url.value }}" height="60px"><h5>{{ form.ateam.value }}</h5></td>
+                    <td class="align-middle text-center"><img src="{{ form.ateam_url.value }}" height="60px"><h6>{{ form.ateam.value }}</h6></td>
                     <td class="align-middle text-right">
                         <input type="radio" class="form-check-input" {% if form.picks.value == form.ateam.value %} checked {% endif %} name="picks-{{ form.fixture_id.value }}" id="{{ form.picks.id }}" value="{{ form.ateam.value }}" {{ form.status.value }} required>
                     </td>
@@ -132,39 +141,40 @@
         </div>
     </form>
   </div> 
-  <div class="col-lg-3">
-    <div class="wrapper ml-auto">
+  <div class="col-lg-2">
+    <div class="wrapper text-dark">
       <h4>AFL Ladder</h4>          
-      <table class="table-hover text-center" style="table-layout: fixed; width:100%" >
+      <table class="table-hover text-center text-dark" style="table-layout: fixed; width:100%" >
         <thead>
           <tr>
-            <th style="width: 20px;"><small><b>RK</b></small></th>
-            <th style="width: 20px;"><small><b></b></small></th>
-            <th style="width: 120px;" class="text-left"><small><b>Club</b></small></th>
-            <th style="width: 18px;"><small><b>P</b></small></th>
-            <th style="width: 18px;"><small><b>W</b></small></th>
-            <th style="width: 18px;"><small><b>L</b></small></th>
-            <th style="width: 18px;"><small><b>D</b></small></th>
-            <th style="width: 18px;"><small><b>PTS</b></small></th>
+            <th style="width: 20px; font-size: 12px;"><b>RK</b></th>
+            <th style="width: 20px; font-size: 12px;"><b></b></th>
+            <th style="width: 120px; font-size: 12px;" class="text-left"><b>Club</b></th>
+            <th style="width: 18px; font-size: 12px;"><b>P</b></th>
+            <th style="width: 18px; font-size: 12px;"><b>W</b></th>
+            <th style="width: 18px; font-size: 12px;"><b>L</b></th>
+            <th style="width: 18px; font-size: 12px;"><b>D</b></th>
+            <th style="width: 18px; font-size: 12px;"><b>PTS</b></th>
           </tr>
         </thead>
         <tbody>
           {% for item in afl_ladder %}
           <tr class="bg-light">
-            <td style="width: 20px; height: 40px;"><small><b>{{ item.pos }}</b></small></td>
-            <td style="width: 50px;" class="text-left"><img src="{{ item.logo }}" height="15px" width="20px"></td>
-            <td style="width: 120px;" class="text-left"><small><b>{{ item.club }}</b></small></td>
-            <td style="width: 20px;"><small>{{ item.played }}</small></td>
-            <td style="width: 20px;"><small>{{ item.wins }}</small></td>
-            <td style="width: 20px;"><small>{{ item.losses }}</small></td>
-            <td style="width: 20px;"><small>{{ item.draws }}</small></td>
-            <td style="width: 20px;"><small>{{ item.pts }}</small></td>
+            <td style="width: 20px; height: 40px; font-size: 12px;"><b>{{ item.pos }}</b></td>
+            <td style="width: 50px; font-size: 12px;" class="text-left"><img src="{{ item.logo }}" height="15px" width="20px"></td>
+            <td style="width: 120px; font-size: 12px;" class="text-left"><b>{{ item.club }}</b></td>
+            <td style="width: 20px; font-size: 12px;">{{ item.played }}</td>
+            <td style="width: 20px; font-size: 12px;">{{ item.wins }}</td>
+            <td style="width: 20px; font-size: 12px;">{{ item.losses }}</td>
+            <td style="width: 20px; font-size: 12px;">{{ item.draws }}</td>
+            <td style="width: 20px; font-size: 12px;">{{ item.pts }}</td>
           </tr>
           {% endfor %}
         </tbody>
       </table> 
     </div>
   </div>
+  <div class="col-lg-1"></div>
 </div>
 
 
@@ -331,10 +341,11 @@ body {
 .wrapper {
     max-width: 350px;
     min-height: 100px;
-    margin: 100px auto;
+    margin: 230px auto;
     padding: 20px 20px 20px 20px;
     background-color: #f3ecec;
     border-radius: 5px;
+    font-size: 8px;
     box-shadow: 0px 0px 0px #cbced1;
 }
 
@@ -358,7 +369,7 @@ body {
     font-weight: 600;
     font-size: 1.4rem;
     letter-spacing: 1.3px;
-    padding-left: 10px;
+    padding-left: 5px;
     color: #555;
 }
 
@@ -370,7 +381,7 @@ body {
     background: none;
     font-size: 1.2rem;
     color: #666;
-    padding: 10px 15px 10px 10px;
+    padding: 5px 5px 5px 5px;
     /* border: 1px solid red; */
 }
 
