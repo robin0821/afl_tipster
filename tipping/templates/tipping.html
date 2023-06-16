@@ -24,39 +24,39 @@
  		<!--Products-->
      
      <div class="row">
-      <div class="col-lg-1"></div>
-      <div class="col-lg-2 hidden-sm">
-        <div class="wrapper text-dark">
+      <div class="col-lg-1 hidden-xs"></div>
+      <div class="col-lg-2 hidden-xs">
+        <div id="tipping_ladder_card" class="wrapper text-dark">
           <h4>Tipping Ladder</h4>          
           <table class="table-hover text-center text-dark" style="table-layout: fixed; width:100%" >
             <thead>
               <tr>
-                <th style="width: 20px; font-size: 12px;"><b>RK</b></th>
-                <th style="width: 90px; font-size: 12px;" class="text-center"><b>Full Name</b></th>
-                <th style="width: 30px; font-size: 12px;"><b>TT</b></th>
-                <th style="width: 30px; font-size: 12px;"><b>AVG</b></th>
-                <th style="width: 30px; font-size: 12px;"><b>TM</b></th>
-                <th style="width: 30px; font-size: 12px;"><b>R{{ round_id | add:-1 }}</b></th>
-                <th style="width: 30px; font-size: 12px;"><b>R{{ round_id | add:-1 }}M</b></th>
+                <th style="width: 7%; font-size: 12px;"><b>RK</b></th>
+                <th style="width: 35%; font-size: 12px;" class="text-center"><b>Full Name</b></th>
+                <th style="width: 14.5%; font-size: 12px;"><b>TT</b></th>
+                <th style="width: 14.5%; font-size: 12px;"><b>AVG</b></th>
+                <th style="width: 14.5%; font-size: 12px;"><b>TM</b></th>
+                <th style="width: 14.5%; font-size: 12px;"><b>R{{ round_id | add:-1 }}</b></th>
+                <th style="width: 14.5%; font-size: 12px;"><b>R{{ round_id | add:-1 }}M</b></th>
               </tr>
             </thead>
             <tbody>
               {% for item in tipping_ladder %}
               <tr class="bg-light">
-                <td style="width: 20px; height: 40px; font-size: 12px;"><b>{{ item.rank }}</b></td>
-                <td style="width: 80px; font-size: 12px;" class="text-left"><b>{{ item.full_name }}</b></td>
-                <td style="width: 40px; font-size: 12px;">{{ item.total_tips }}</td>
-                <td style="width: 40px; font-size: 12px;">{{ item.avg_per_round }}</td>
-                <td style="width: 40px; font-size: 12px;">{{ item.total_margin }}</td>
-                <td style="width: 40px; font-size: 12px;">{{ item.last_round_tips }}</td>
-                <td style="width: 40px; font-size: 12px;">{{ item.last_round_margin }}</td>
+                <td style="width: 7%; height: 40px; font-size: 12px;"><b>{{ item.rank }}</b></td>
+                <td style="width: 35%; font-size: 12px;" class="text-left"><b>{{ item.full_name }}</b></td>
+                <td style="width: 14.5%; font-size: 12px;">{{ item.total_tips }}</td>
+                <td style="width: 14.5%; font-size: 12px;">{{ item.avg_per_round }}</td>
+                <td style="width: 14.5%; font-size: 12px;">{{ item.total_margin }}</td>
+                <td style="width: 14.5%; font-size: 12px;">{{ item.last_round_tips }}</td>
+                <td style="width: 14.5%; font-size: 12px;">{{ item.last_round_margin }}</td>
               </tr>
               {% endfor %}
             </tbody>
           </table> 
         </div>
       </div>
-     <div class="col-lg-6 col-xs-12">
+     <div class="col-lg-6 col-md-12 col-sm-12 col-xs-12">
          <div class="container py-3">
           {% include "navbar.html" %} 
             <table class="table-borderless col-md-12">
@@ -141,40 +141,40 @@
         </div>
     </form>
   </div> 
-  <div class="col-lg-2">
-    <div class="wrapper text-dark">
+  <div class="col-lg-2 hidden-xs">
+    <div id="afl_ladder_card" class="wrapper text-dark hidden-xs">
       <h4>AFL Ladder</h4>          
       <table class="table-hover text-center text-dark" style="table-layout: fixed; width:100%" >
         <thead>
           <tr>
-            <th style="width: 20px; font-size: 12px;"><b>RK</b></th>
-            <th style="width: 20px; font-size: 12px;"><b></b></th>
-            <th style="width: 120px; font-size: 12px;" class="text-left"><b>Club</b></th>
-            <th style="width: 18px; font-size: 12px;"><b>P</b></th>
-            <th style="width: 18px; font-size: 12px;"><b>W</b></th>
-            <th style="width: 18px; font-size: 12px;"><b>L</b></th>
-            <th style="width: 18px; font-size: 12px;"><b>D</b></th>
-            <th style="width: 18px; font-size: 12px;"><b>PTS</b></th>
+            <th style="width: 8%; font-size: 12px;"><b>RK</b></th>
+            <th style="width: 8%; font-size: 12px;"><b></b></th>
+            <th style="width: 48%; font-size: 12px;" class="text-left"><b>Club</b></th>
+            <th style="width: 7.2%; font-size: 12px;"><b>P</b></th>
+            <th style="width: 7.2%; font-size: 12px;"><b>W</b></th>
+            <th style="width: 7.2%; font-size: 12px;"><b>L</b></th>
+            <th style="width: 7.2%; font-size: 12px;"><b>D</b></th>
+            <th style="width: 7.2%; font-size: 12px;"><b>PTS</b></th>
           </tr>
         </thead>
         <tbody>
           {% for item in afl_ladder %}
           <tr class="bg-light">
-            <td style="width: 20px; height: 40px; font-size: 12px;"><b>{{ item.pos }}</b></td>
-            <td style="width: 50px; font-size: 12px;" class="text-left"><img src="{{ item.logo }}" height="15px" width="20px"></td>
+            <td style="width: 8%; height: 40px; font-size: 12px;"><b>{{ item.pos }}</b></td>
+            <td style="width: 48%; font-size: 12px;" class="text-left"><img src="{{ item.logo }}" height="15px" width="20px"></td>
             <td style="width: 120px; font-size: 12px;" class="text-left"><b>{{ item.club }}</b></td>
-            <td style="width: 20px; font-size: 12px;">{{ item.played }}</td>
-            <td style="width: 20px; font-size: 12px;">{{ item.wins }}</td>
-            <td style="width: 20px; font-size: 12px;">{{ item.losses }}</td>
-            <td style="width: 20px; font-size: 12px;">{{ item.draws }}</td>
-            <td style="width: 20px; font-size: 12px;">{{ item.pts }}</td>
+            <td style="width: 7.2%; font-size: 12px;">{{ item.played }}</td>
+            <td style="width: 7.2%; font-size: 12px;">{{ item.wins }}</td>
+            <td style="width: 7.2%; font-size: 12px;">{{ item.losses }}</td>
+            <td style="width: 7.2%; font-size: 12px;">{{ item.draws }}</td>
+            <td style="width: 7.2%; font-size: 12px;">{{ item.pts }}</td>
           </tr>
           {% endfor %}
         </tbody>
       </table> 
     </div>
   </div>
-  <div class="col-lg-1"></div>
+  <div class="col-lg-1 hidden-xs"></div>
 </div>
 
 
@@ -183,6 +183,11 @@
 
 
 <style>
+@media (max-width: 1280px) {
+  .hidden-xs {
+    display: none !important;
+  }
+}
 
 body {
     background-image: url('https://storage.googleapis.com/afl_statics/staticfiles/intelia_background.png');
