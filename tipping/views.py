@@ -38,7 +38,7 @@ def create_tips(request, round_id=None):
         for item in fixture_data:
             single_tipping = tippings.objects.filter(fixture_id=item.id, email=request.user.email).first()
             if not single_tipping:
-                if item.date < timezone.now():
+                if item.date < timezone.localtime() + timedelta(hours=10):
                     status = 'disabled'
                 else:
                     status = ''
@@ -47,7 +47,7 @@ def create_tips(request, round_id=None):
                                 'date': item.date, 'venue': item.venue, 'status': status, 'margin': 0})
             else:
                 item = single_tipping
-                if item.date < timezone.now():
+                if item.date < timezone.localtime() + timedelta(hours=10):
                     status = 'disabled'
                 else:
                     status = ''
@@ -241,7 +241,7 @@ def data_refreshing_exec(refresh_option):
                     margin_diff = abs(margin - abs(int(fixture.hscore) - int(fixture.ascore)))
                 else: 
                     margin_diff = 0
-                if item.date < timezone.now():
+                if item.date < timezone.localtime() + timedelta(hours=10):
                     status = 'completed'
                 else:
                     status = ''
