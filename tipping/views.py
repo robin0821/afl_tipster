@@ -9,6 +9,7 @@ from sqlalchemy import create_engine
 import json
 from datetime import date, timedelta, datetime
 from django.utils import timezone
+from pytz import timezone as tz
 from django.forms import formset_factory, modelformset_factory
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.decorators import login_required
@@ -26,7 +27,8 @@ def create_tips(request, round_id=None):
     if request.method == 'GET':
         disable_btn = None
         if round_id is None:
-                week_start = date.today()
+                now_time = timezone.localtime() + timedelta(hours=10)
+                week_start = now_time.date()
                 week_start -= timedelta(days=week_start.weekday())
                 week_end = week_start + timedelta(days=7)
                 fixture_data = AFLFixture.objects.filter(date__gte=week_start, date__lt=week_end).order_by('date')
@@ -34,7 +36,6 @@ def create_tips(request, round_id=None):
                 fixture_data = AFLFixture.objects.filter(round=round_id).order_by('date')
         else:
             fixture_data = AFLFixture.objects.filter(round=round_id).order_by('date')
-
         for item in fixture_data:
             single_tipping = tippings.objects.filter(fixture_id=item.id, email=request.user.email).first()
             if not single_tipping:
