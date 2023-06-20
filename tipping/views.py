@@ -59,7 +59,16 @@ def create_tips(request, round_id=None):
         disable_btn = status
         tippingFormSet = formset_factory(CrispyTipping, extra=0)
         formset = tippingFormSet(initial=initial)
+
+        for item in users:
+            tip_ladder.objects.get_or_create(email=item.email, defaults={
+                'email': item.email, 'first_name': item.first_name, 'last_name': item.last_name,
+                'full_name': item.first_name + ' ' + item.last_name,
+                'total_tips': 0, 'total_margin': 0, 'avg_per_round': 0, 'last_round_tips': 0, 
+                'rounds_tipped': 0, 'rank': 99
+            })
         
+
         context = {'formset': formset,
                 'round_id': round_id,
                 'pre_url': '/tipping/tips/{}/'.format(int(round_id - 1)), 
@@ -67,7 +76,7 @@ def create_tips(request, round_id=None):
                 'current_url': '/tipping/tips/{}/'.format(int(round_id)), 
                 'disable_btn': disable_btn, 
                 'afl_ladder': AFLLadder.objects.all(),
-                'tipping_ladder': tip_ladder.objects.all().order_by('rank')}
+                'tipping_ladder': tip_ladder.objects.all().order_by('rank').exclude(email='tips.admin@intelia.com.au')}
     if request.method == 'POST':
         resp_data = request.POST.dict()
         fixture_obj = None
