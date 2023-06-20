@@ -57,6 +57,7 @@ class tippingLadderAdmin(ImportExportModelAdmin):
                     'last_round_margin')
     readonly_fields = ('rank', 'email', 'full_name', 'total_tips', 'total_margin', 'avg_per_round', 'last_round_tips',
                     'last_round_margin')
+    list_filter = ('email', 'rank')
     resource_class = tippingLadderResource
 
 admin.site.register(AFLTeams, AFLTeamsAdmin)
