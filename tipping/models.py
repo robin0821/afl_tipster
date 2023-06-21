@@ -56,6 +56,7 @@ class tippings(models.Model):
     has_margin = models.CharField(max_length=20, null=True, default='')
     rank = models.IntegerField(default=0)
     auto = models.CharField(max_length=20, null=True, default='')
+    disabled = models.CharField(max_length=20, null=True, default='')
 
 class tip_ladder(models.Model):
     email = models.CharField(max_length=100, primary_key=True, default='')

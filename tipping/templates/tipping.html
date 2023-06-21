@@ -26,32 +26,31 @@
  		<!--Products-->
      
      <div class="row">
-      <div class="col-lg-1 hidden-xs"></div>
-      <div class="col-lg-2 hidden-xs">
+      <div class="col-lg-3 hidden-xs">
         <div id="tipping_ladder_card" class="wrapper text-dark">
           <h4>Tipping Ladder</h4>          
           <table class="table-hover text-center text-dark" style="table-layout: fixed; width:100%" >
             <thead>
               <tr>
-                <th style="width: 7%; font-size: 12px;"><b>RK</b></th>
-                <th style="width: 35%; font-size: 12px;" class="text-center"><b>Full Name</b></th>
-                <th style="width: 14.5%; font-size: 12px;"><b>TT</b></th>
-                <th style="width: 14.5%; font-size: 12px;"><b>AVG</b></th>
-                <th style="width: 14.5%; font-size: 12px;"><b>TM</b></th>
-                <th style="width: 14.5%; font-size: 12px;"><b>R{{ round_id | add:-1 }}</b></th>
-                <th style="width: 14.5%; font-size: 12px;"><b>R{{ round_id | add:-1 }}M</b></th>
+                <th style="width: 7%; font-size: 11px;"><b>RK</b></th>
+                <th style="width: 53%; font-size: 11px;" class="text-center"><b>Full Name</b></th>
+                <th style="width: 8%; font-size: 11px;"><b>TT</b></th>
+                <th style="width: 8%; font-size: 11px;"><b>AVG</b></th>
+                <th style="width: 8%; font-size: 11px;"><b>TM</b></th>
+                <th style="width: 8%; font-size: 11px;"><b>{{ round_id | add:-1 }}</b></th>
+                <th style="width: 8%; font-size: 11px;"><b>{{ round_id | add:-1 }}M</b></th>
               </tr>
             </thead>
             <tbody>
               {% for item in tipping_ladder %}
               <tr class="bg-light">
-                <td style="width: 7%; height: 40px; font-size: 12px;"><b>{{ item.rank }}</b></td>
-                <td style="width: 35%; font-size: 12px;" class="text-left"><b>{{ item.full_name }}</b></td>
-                <td style="width: 14.5%; font-size: 12px;">{{ item.total_tips }}</td>
-                <td style="width: 14.5%; font-size: 12px;">{{ item.avg_per_round }}</td>
-                <td style="width: 14.5%; font-size: 12px;">{{ item.total_margin }}</td>
-                <td style="width: 14.5%; font-size: 12px;">{{ item.last_round_tips }}</td>
-                <td style="width: 14.5%; font-size: 12px;">{{ item.last_round_margin }}</td>
+                <td style="width: 7%; height: 40px; font-size: 11px;" {% if item.full_name == "Botty McBothead" %} bgcolor="#66d9ff" {% endif %}><b>{{ item.rank }}</b></td>
+                <td style="width: 35%; font-size: 11px;" class="text-left" {% if item.full_name == "Botty McBothead" %} bgcolor="#66d9ff" {% endif %}><b>{{ item.full_name }}</b></td>
+                <td style="width: 14.5%; font-size: 11px;" {% if item.full_name == "Botty McBothead" %} bgcolor="#66d9ff" {% endif %}>{{ item.total_tips }}</td>
+                <td style="width: 14.5%; font-size: 11px;" {% if item.full_name == "Botty McBothead" %} bgcolor="#66d9ff" {% endif %}>{{ item.avg_per_round }}</td>
+                <td style="width: 14.5%; font-size: 11px;" {% if item.full_name == "Botty McBothead" %} bgcolor="#66d9ff" {% endif %}>{{ item.total_margin }}</td>
+                <td style="width: 14.5%; font-size: 11px;" {% if item.full_name == "Botty McBothead" %} bgcolor="#66d9ff" {% endif %}>{{ item.last_round_tips }}</td>
+                <td style="width: 14.5%; font-size: 11px;" {% if item.full_name == "Botty McBothead" %} bgcolor="#66d9ff" {% endif %}>{{ item.last_round_margin }}</td>
               </tr>
               {% endfor %}
             </tbody>
@@ -94,25 +93,35 @@
                 <tbody>
                   <tr>
                     <th style="width: 10%"></th>
-                    <th style="width: 30%"></th>
-                    <th style="width: 10%"></th>
-                    <th style="width: 10%"></th>
-                    <th style="width: 30%"></th>
+                    <th style="width: 40%"></th>
+                    <th style="width: 5%"></th>
+                    <th style="width: 40%"></th>
                     <th style="width: 10%"></th>
                   </tr>
                   <tr>
-                    <td class="align-middle text-left">
+                    <td class="align-middle text-left" {% if form.picks.value == form.hteam.value %} bgcolor="#ccf2ff" {% endif %}>
                     <div class="form-check">
                         <label class="form-check-label">
                     
-                        <input type="radio" class="form-check-input" {% if form.picks.value == form.hteam.value %} checked {% endif %} name="picks-{{ form.fixture_id.value }}" id="{{ form.picks.id }}" value="{{ form.hteam.value }}" {{ form.status.value }} required>
+                        <input type="radio" class="form-check-input" {% if form.picks.value == form.hteam.value %} checked {% endif %} name="picks-{{ form.fixture_id.value }}" id="{{ form.picks.id }}" value="{{ form.hteam.value }}" {{ form.disabled.value }} required>
                     </td>
-                    <td class="align-middle text-center"><img src="{{ form.hteam_url.value }}" height="60px"><h6>{{ form.hteam.value }}</h6></td>
-                    <td class="align-middle text-center text-success"><h1> </h1></td>
-                    <td class="align-middle text-center text-success"><h1> </h1></td>
-                    <td class="align-middle text-center"><img src="{{ form.ateam_url.value }}" height="60px"><h6>{{ form.ateam.value }}</h6></td>
-                    <td class="align-middle text-right">
-                        <input type="radio" class="form-check-input" {% if form.picks.value == form.ateam.value %} checked {% endif %} name="picks-{{ form.fixture_id.value }}" id="{{ form.picks.id }}" value="{{ form.ateam.value }}" {{ form.status.value }} required>
+                    <td class="align-middle text-center" {% if form.picks.value == form.hteam.value %} bgcolor="#ccf2ff" {% endif %}><img src="{{ form.hteam_url.value }}" height="60px"><h6>{{ form.hteam.value }}</h6></td>
+                    <td class="align-middle text-center text-success">
+                      {% if form.status.value == "completed" %}
+                        {% if form.picks.value == form.winner.value %}
+                          <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/3b/Eo_circle_green_checkmark.svg/768px-Eo_circle_green_checkmark.svg.png?20200417132424" height="30px">
+                        {% elif form.winner.value is none %}
+                          <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/3b/Eo_circle_green_checkmark.svg/768px-Eo_circle_green_checkmark.svg.png?20200417132424" height="30px">
+                        {% else %}
+                          <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/83/Eo_circle_red_white_letter-x.svg/768px-Eo_circle_red_white_letter-x.svg.png?20200417175209" height="30px">
+                        {% endif %}
+                      {% else %}
+                      <p></p>
+                      {% endif %}
+                      </td>
+                    <td class="align-middle text-center" {% if form.picks.value == form.ateam.value %} bgcolor="#ccf2ff" {% endif %}><img src="{{ form.ateam_url.value }}" height="60px"><h6>{{ form.ateam.value }}</h6></td>
+                    <td class="align-middle text-right" {% if form.picks.value == form.ateam.value %} bgcolor="#ccf2ff" {% endif %}>
+                        <input type="radio" class="form-check-input" {% if form.picks.value == form.ateam.value %} checked {% endif %} name="picks-{{ form.fixture_id.value }}" id="{{ form.picks.id }}" value="{{ form.ateam.value }}" {{ form.disabled.value }} required>
                     </td>
                 </label>
                 </div>
@@ -127,7 +136,7 @@
                     <tr>
                     <td colspan=1><h6>Margin</h6></td>
                     <td colspan=6 class="text-center" width="100%">
-                        <input type="range" class="form-range" name="margin-score" id="ageInputId" value="{{ form.margin.value }}" min="0" max="100" oninput="ageOutputId.value = ageInputId.value" width="400px" {{ form.status.value }}>
+                        <input type="range" class="form-range" name="margin-score" id="ageInputId" value="{{ form.margin.value }}" min="0" max="100" oninput="ageOutputId.value = ageInputId.value" width="400px" {{ form.disabled.value }}>
                     </td>
                   </tr>
                   {% endif %}
@@ -143,7 +152,7 @@
         </div>
     </form>
   </div> 
-  <div class="col-lg-2 hidden-xs">
+  <div class="col-lg-3 hidden-xs">
     <div id="afl_ladder_card" class="wrapper text-dark hidden-xs">
       <h4>AFL Ladder</h4>          
       <table class="table-hover text-center text-dark" style="table-layout: fixed; width:100%" >
@@ -176,7 +185,6 @@
       </table> 
     </div>
   </div>
-  <div class="col-lg-1 hidden-xs"></div>
 </div>
 
 

@@ -40,23 +40,25 @@ def create_tips(request, round_id=None):
             single_tipping = tippings.objects.filter(fixture_id=item.id, email=request.user.email).first()
             if not single_tipping:
                 if item.date < timezone.localtime() + timedelta(hours=10):
-                    status = 'disabled'
+                    disabled = 'disabled'
                 else:
-                    status = ''
+                    disabled = ''
                 initial.append({'fixture_id': item.id, 'hteam': item.hteam, 'ateam': item.ateam, 
                                 'hteam_url': item.hteamid.logo, 'ateam_url': item.ateamid.logo, 
-                                'date': item.date, 'venue': item.venue, 'status': status, 'margin': 0})
+                                'date': item.date, 'venue': item.venue, 'disabled': disabled, 'margin': 0, 
+                                'winner': item.winner, 'status': ''})
             else:
                 item = single_tipping
                 if item.date < timezone.localtime() + timedelta(hours=10):
-                    status = 'disabled'
+                    disabled = 'disabled'
                 else:
-                    status = ''
+                    disabled = ''
                 initial.append({'fixture_id': item.fixture_id, 'hteam': item.hteam, 'ateam': item.ateam, 
                                 'hteam_url': item.hteam_url, 'ateam_url': item.ateam_url, 
-                                'date': item.date, 'venue': item.venue, 'status': status, 
-                                'picks': item.picks, 'margin': item.margin})
-        disable_btn = status
+                                'date': item.date, 'venue': item.venue, 'disabled': disabled, 
+                                'picks': item.picks, 'margin': item.margin, 'winner': item.winner,
+                                'status': item.status})
+        disable_btn = disabled
         tippingFormSet = formset_factory(CrispyTipping, extra=0)
         formset = tippingFormSet(initial=initial)
 

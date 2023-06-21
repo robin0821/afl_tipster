@@ -30,7 +30,8 @@ class DataFreshForm(forms.Form):
 class TippingForm(forms.ModelForm):
     class Meta:
         model = tippings
-        fields = ['first_name', 'last_name', 'email', 'fixture_id', 'picks', 'margin', 'hteam', 'ateam', 'hteam_url', 'ateam_url', 'date', 'venue', 'status']
+        fields = ['first_name', 'last_name', 'email', 'fixture_id', 'picks', 'margin', 'hteam', 
+                  'ateam', 'hteam_url', 'ateam_url', 'date', 'venue', 'status', 'winner', 'disabled']
         widget = {'first_name': forms.HiddenInput(),
                   'last_name': forms.HiddenInput(), 
                   'email': forms.HiddenInput(), 
@@ -41,7 +42,8 @@ class TippingForm(forms.ModelForm):
                   'ateam_url': forms.HiddenInput(),
                   'date': forms.HiddenInput(),
                   'venue': forms.HiddenInput(),
-                  'status': forms.HiddenInput()}
+                  'status': forms.HiddenInput(),
+                  'winner': forms.HiddenInput()}
 
 
 class CrispyTipping(forms.ModelForm):
@@ -53,7 +55,9 @@ class CrispyTipping(forms.ModelForm):
     )
     class Meta:
         model = tippings
-        fields = ['first_name', 'last_name', 'email', 'fixture_id', 'picks', 'margin', 'hteam', 'ateam', 'hteam_url', 'ateam_url', 'date', 'venue', 'status', 'has_margin']
+        fields = ['first_name', 'last_name', 'email', 'fixture_id', 'picks', 
+                  'margin', 'hteam', 'ateam', 'hteam_url', 'ateam_url', 'date', 
+                  'venue', 'status', 'has_margin', 'winner', 'disabled']
         
     def __init__(self, *args, **kwargs):
         choices = (('hteam', 'hteam'), ('ateam', 'ateam'))
@@ -71,6 +75,9 @@ class CrispyTipping(forms.ModelForm):
         self.fields['status'].widget = HiddenInput()
         self.fields['has_margin'].widget = HiddenInput()
         self.fields['picks'] = forms.ChoiceField(required=True, widget=forms.RadioSelect, choices=choices)
+        self.fields['winner'].widget = HiddenInput()
+        self.fields['disabled'].widget = HiddenInput()
+
         self.helper = FormHelper()
         self.helper.form_method = 'POST'
         self.helper.form_show_labels = False
