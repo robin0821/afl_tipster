@@ -41,6 +41,7 @@ def create_tips(request, round_id=None):
             if not single_tipping:
                 if item.date < timezone.localtime() + timedelta(hours=10):
                     disabled = 'disabled'
+                    # disabled = ''
                 else:
                     disabled = ''
                 initial.append({'fixture_id': item.id, 'hteam': item.hteam, 'ateam': item.ateam, 
@@ -51,6 +52,7 @@ def create_tips(request, round_id=None):
                 item = single_tipping
                 if item.date < timezone.localtime() + timedelta(hours=10):
                     disabled = 'disabled'
+                    # disabled = ''
                 else:
                     disabled = ''
                 initial.append({'fixture_id': item.fixture_id, 'hteam': item.hteam, 'ateam': item.ateam, 

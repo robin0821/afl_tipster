@@ -47,7 +47,7 @@
                 <td style="width: 7%; height: 40px; font-size: 11px;" {% if item.full_name == "Botty McBothead" %} bgcolor="#66d9ff" {% endif %}><b>{{ item.rank }}</b></td>
                 <td style="width: 35%; font-size: 11px;" class="text-left" {% if item.full_name == "Botty McBothead" %} bgcolor="#66d9ff" {% endif %}><b>{{ item.full_name }}</b></td>
                 <td style="width: 14.5%; font-size: 11px;" {% if item.full_name == "Botty McBothead" %} bgcolor="#66d9ff" {% endif %}>{{ item.total_tips }}</td>
-                <td style="width: 14.5%; font-size: 11px;" {% if item.full_name == "Botty McBothead" %} bgcolor="#66d9ff" {% endif %}>{{ item.avg_per_round }}</td>
+                <td style="width: 14.5%; font-size: 11px;" {% if item.full_name == "Botty McBothead" %} bgcolor="#66d9ff" {% endif %}>{{ item.avg_per_round|floatformat:"1" }}</td>
                 <td style="width: 14.5%; font-size: 11px;" {% if item.full_name == "Botty McBothead" %} bgcolor="#66d9ff" {% endif %}>{{ item.total_margin }}</td>
                 <td style="width: 14.5%; font-size: 11px;" {% if item.full_name == "Botty McBothead" %} bgcolor="#66d9ff" {% endif %}>{{ item.last_round_tips }}</td>
                 <td style="width: 14.5%; font-size: 11px;" {% if item.full_name == "Botty McBothead" %} bgcolor="#66d9ff" {% endif %}>{{ item.last_round_margin }}</td>
